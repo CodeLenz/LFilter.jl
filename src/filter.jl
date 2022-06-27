@@ -26,7 +26,7 @@ mutable struct Filter
    ρ_min::Float64 
 
 
-   function Filter(mesh::Mesh,radius::=0.0;β=1.0,ρ_min=1E-3,η=0.5) 
+   function Filter(mesh::Mesh,radius=0.0;β=1.0,ρ_min=1E-3,η=0.5) 
 
       # If radius is 0.0, find a minimum radius 
       if radius==zero(radius)
