@@ -3,7 +3,9 @@ Spatial filter with projection for Topology Optimization of continuum structures
 
 ```julia
 
-using BMesh, LMesh, TMeshes, LFilter
+using BMesh, LMesh, TMeshes
+using LFEM 
+using LFilter
 
 # Create a 2D solid mesh
 m = Simply_supported2D(10,10,:solid2D);
