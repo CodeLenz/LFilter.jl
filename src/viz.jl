@@ -3,7 +3,7 @@
 function Neighbours(mesh::Mesh,radius)
 
     # Alias
-    ne = mesh.bmesh.be
+    ne = mesh.bmesh.ne
 
     # Maximum number of neighbours in the mesh
     num_max = 0
