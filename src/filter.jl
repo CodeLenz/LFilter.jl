@@ -26,7 +26,7 @@ mutable struct Filter
    ρ_min::Float64 
 
 
-   function Filter(radius::T,mesh::Mesh,β::T=1.0,ρ_min=1E-3,η::T=0.5) where T
+   function Filter(mesh::Mesh,radius::=0.0;β=1.0,ρ_min=1E-3,η=0.5) 
 
       # If radius is 0.0, find a minimum radius 
       if radius==zero(radius)
@@ -42,7 +42,7 @@ mutable struct Filter
       # and generate two lists: one containing the fixed elementos and ohter with
       # the fixed values
       posfix = Int64[]
-      valfix = T[]
+      valfix = Float64[]
       if haskey(mesh.options,"fixed_element")
 
          # Alias and number of fixed elements 
