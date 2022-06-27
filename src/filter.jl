@@ -43,7 +43,7 @@ mutable struct Filter
       # the fixed values
       posfix = Int64[]
       valfix = Float64[]
-      if haskey(mesh.options,"fixed_element")
+      if haskey(mesh.options,:Fixed_elements)
 
          # Alias and number of fixed elements 
          fixed_elements =  mesh.options[:Fixed_elements]
