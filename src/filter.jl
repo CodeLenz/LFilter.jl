@@ -46,12 +46,12 @@ mutable struct Filter
       if haskey(mesh.options,"fixed_element")
 
          # Alias and number of fixed elements 
-         fixed_element =  mesh.options["fixed_element"]
-         nfixed = size(fixed_element,1)
+         fixed_elements =  mesh.options[:Fixed_elements]
+         nfixed = size(fixed_elements,1)
 
          for i=1:nfixed
-             ele = Int(fixed_element[i,1])
-             val = fixed_element[i,2]
+             ele = Int(fixed_elements[i,1])
+             val = fixed_elements[i,2]
              MAP[ele,:] .= 0.0
              MAP[ele,ele] = 1.0    
              push!(posfix,ele)
