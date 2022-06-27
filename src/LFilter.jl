@@ -1,5 +1,7 @@
 module LFilter
 
+using BMesh, LMesh
+
 include("viz.jl")
 include("filter.jl")
 
