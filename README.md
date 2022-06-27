@@ -31,8 +31,8 @@ Gmsh_element_scalar(m,x,name,"Original")
 Gmsh_element_scalar(m,ρ,name,"Filtered")
 
 # It is also possible to fix some elements during the filtering/optimization
-# Lets set element 56 to 1E-2 and 100 to 1.0
-m.options[:Fixed_elements]=[56 1E-3 ; 100 1.0]
+# Lets set elements 1 and 100 to 1.0
+m.options[:Fixed_elements]=[1 1.0 ; 100 1.0]
 
 # Create a filter with radius 0.3m
 filter2 = Filter(m,0.3)
