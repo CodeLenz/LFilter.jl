@@ -29,7 +29,7 @@ function Neighbours(mesh::Mesh,radius)
              c_j = Centroid(mesh,j) 
 
              # Distance
-             d = norm(cj.-c_ele)
+             d = norm(c_j.-c_ele)
 
              # If inside the radius...
              if d<=R
