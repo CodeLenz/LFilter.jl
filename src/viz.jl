@@ -32,9 +32,9 @@ function Neighbours(mesh::Mesh,radius)
              d = norm(c_j.-c_ele)
 
              # If inside the radius...
-             if d<=R
+             if d<=radius
                  push!(viz_ele,j)
-                 push!(weigths_ele, 1.0 - d/R)
+                 push!(weigths_ele, 1.0 - d/radius)
              end #if
 
          end #j
