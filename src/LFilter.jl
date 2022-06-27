@@ -1,6 +1,7 @@
 module LFilter
 
 using BMesh, LMesh
+using LinearAlgebra, SparseArrays
 
 include("viz.jl")
 include("filter.jl")
