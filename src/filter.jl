@@ -81,7 +81,7 @@ function Map_x_ρ(R::T,mesh::Mesh) where T
     ne = mesh.bmesh.ne
 
     # Obtem os vizinhos e pesos para o raio/malha
-    viz, weigths = Neighbours(R,mesh)
+    viz, weigths = Neighbours(mesh,R)
 
     # Sparse matrix
     VI = Int64[]
