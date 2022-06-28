@@ -28,6 +28,9 @@ mutable struct Filter
 
    function Filter(mesh::Mesh,radius=0.0;β=1.0,ρ_min=1E-3,η=0.5) 
 
+      # It just makes sense  for solid elements
+      @assert contains(string(mesh.etype),"solid") "Filter::only for meshes with :solid elements"
+      
       # If radius is 0.0, find a minimum radius 
       if radius==zero(radius)
          radius = max(mesh.bmesh.Lx/mesh.bmesh.nx, mesh.bmesh.Ly/mesh.bmesh.ny)*1.5
