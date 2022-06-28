@@ -34,6 +34,9 @@ Gmsh_element_scalar(m,ρ,name,"Filtered")
 # Lets set elements 1 and 100 to 1.0 and element 10 to 1E-3
 m.options[:Fixed_elements]=[1 1.0 ; 100 1.0; 10 1E-3]
 
+# Create another filter with radius 0.3m
+filter2 = Filter(m,0.3)
+
 # Filter 
 ρ2 = x2proj(x,filter2)
 
