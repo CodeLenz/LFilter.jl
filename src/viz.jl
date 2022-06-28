@@ -1,7 +1,10 @@
 
 # Neighbours and weigths
-function Neighbours(mesh::Mesh,radius)
+function Neighbours(mesh::Mesh,radius::Float64)
 
+    # Basic assertion
+    @assert radius>0.0 "Neighbours:: radius must be >0.0"
+    
     # Alias
     ne = mesh.bmesh.ne
 
