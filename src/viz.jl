@@ -40,7 +40,7 @@ function Neighbours(mesh::Mesh,radius)
          end #j
 
         # Assert if the element has neighbours
-        length(viz_ele)>0 || throw("Neighbours:: element $ele does not have neighbours")
+        length(viz_ele)>1 || throw("Neighbours:: element $ele does not have neighbours")
 
         # Maximum number of neighbours until now
         num_max = max(num_max,length(viz_ele))
