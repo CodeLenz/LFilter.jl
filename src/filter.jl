@@ -35,7 +35,7 @@ mutable struct Filter
       @assert radius>=0.0 "Filter:: radius must be >=0"
       @assert β>=1.0 "Filter:: β must be >= 1.0"
       @assert 0<ρ_min<1 "Filter:: ρ_min must be in (0,1)"
-      @assrt  0<η<1 "Filter:: η must be in (0,1)"
+      @assert  0<η<1 "Filter:: η must be in (0,1)"
       
       # If radius is 0.0, find a minimum radius 
       if radius==0.0
