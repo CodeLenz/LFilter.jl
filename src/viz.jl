@@ -6,7 +6,7 @@ function Neighbours(mesh::Mesh,radius::Float64)
     @assert radius>0.0 "Neighbours:: radius must be >0.0"
     
     # Alias
-    ne = mesh.bmesh.ne
+    ne = Get_ne(mesh)
 
     # Maximum number of neighbours in the mesh
     num_max = 0
@@ -16,7 +16,7 @@ function Neighbours(mesh::Mesh,radius::Float64)
     weigths = Vector{Float64}[]
 
      # Loop for each element
-     for ele=1:ne
+     for ele in mesh
 
          # Pega a posição do centróide do elemento central
          c_ele = Centroid(mesh,ele) 
@@ -26,7 +26,7 @@ function Neighbours(mesh::Mesh,radius::Float64)
          weigths_ele = Float64[]
 
          # Scan the mesh and store the neighbours of ele
-         for j=1:ne
+         for j in mesh
 
              # Centroid of j
              c_j = Centroid(mesh,j) 
