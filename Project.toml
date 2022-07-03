@@ -10,3 +10,9 @@ LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 SparseArrays = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
 TMeshes = "00e613e3-3517-4068-b432-60b6a85c0988"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[compat]
+julia = "1.7"
+BMesh = "0.2"
+LMesh = "0.1"
+Tmeshes = "0.1"
