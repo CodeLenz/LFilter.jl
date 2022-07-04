@@ -58,7 +58,7 @@ mutable struct Filter
          fixed_elements =  mesh.options[:Fixed_elements]
          nfixed = size(fixed_elements,1)
 
-         for i=1:nfixed
+         @inbounds for i=1:nfixed
              ele = Int(fixed_elements[i,1])
              val = fixed_elements[i,2]
              MAP[ele,:] .= 0.0
@@ -84,28 +84,28 @@ end
 # Monta a matriz F que mapeia x para ρ, ou seja,
 # filtro de densidades padrão
 #
-function Map_x_ρ(R::T,mesh::Mesh) where T
+function Map_x_ρ(R::Float64,mesh::Mesh)
 
     # Alias
-    ne = mesh.bmesh.ne
+    ne = Get_ne(mesh)
 
     # Obtem os vizinhos e pesos para o raio/malha
     viz, weigths = Neighbours(mesh,R)
 
     # Sparse matrix
-    VI = Int64[]
+    VI = Int64[] 
     VJ = Int64[]
-    VV = T[]
+    VV = Float64[]
 
     # For each element, put the neighbours in columns. Lets
     # divide by the sum of the weigths 
-    for ele=1:ne
+    @inbounds for ele in mesh
 
         # Sum of weigths
         somat = sum(weigths[ele])
 
         # Scan the neighbours
-        for par in zip(viz[ele],weigths[ele]/somat) 
+        @inbounds for par in zip(viz[ele],weigths[ele]/somat) 
 
             push!(VI,ele)
             push!(VJ,par[1])
@@ -124,19 +124,23 @@ end
 # não é linear (depende de ρ), portanto devemos 
 # fazer na forma algoritmica
 #
-function Map_ρ_tanh(β::T,η::T,ρ::Array{T,1}) where T
+function Map_ρ_tanh(β::Float64,η::Float64,ρ::Vector{Float64})
 
     # Primeiro alocamos um vetor com a mesma dimensão 
     # de ρ
-    ρ_proj = Array{T}(undef,length(ρ))
+    ρ_proj = Array{Float64}(undef,length(ρ))
 
     # Cte
     cte = tanh(β*η)
 
-    # Loop sobre os elementos, calculando a projeção
-    for ele in LinearIndices(ρ)
+    cte2 = (cte+tanh(β*(1-η)))
 
-        ρ_proj[ele] = (tanh(β*(ρ[ele]-η))+cte)/(cte+tanh(β*(1-η)))
+    cte2 !=0.0 || throw("Map_ρ_tanh:: check β and η")
+
+    # Loop sobre os elementos, calculando a projeção
+    @inbounds for ele in LinearIndices(ρ)
+
+        ρ_proj[ele] = (tanh(β*(ρ[ele]-η))+cte)/cte2
 
     end
 
@@ -148,16 +152,22 @@ end
 # Operador de correção de derivada d ρ_proj / d ρ 
 # que será utilizado na regra da cadeia para correção de derivadas
 #
-function dρ_projdρ(β::T,η::T,ρ::Array{T,1}) where T
+function dρ_projdρ(β::Float64,η::Float64,ρ::Vector{Float64})
 
     # Primeiro alocamos um vetor com a mesma dimensão 
     # de ρ
-    operador = Array{T}(undef,length(ρ))
+    operador = Array{Float64}(undef,length(ρ))
+
+    # Cte
+    cte =  (tanh(β*η)+tanh(β*(1-η)))
+
+    # Assertion
+    cte != 0.0 || throw("dρ_projdρ:: check  β and η")
 
     # Loop sobre os elementos, calculando a projeção
-    for ele in LinearIndices(ρ)
+    @inbounds for ele in LinearIndices(ρ)
 
-         operador[ele] = (β*sech(β*(ρ[ele]-η))^2)/(tanh(β*η)+tanh(β*(1-η)))
+         operador[ele] = (β*sech(β*(ρ[ele]-η))^2)/cte
 
     end
     
@@ -169,7 +179,7 @@ end
 #
 # do the Map 
 #
-function x2ρ(x::Array{T},filter::Filter) where T
+function x2ρ(x::Vector{Float64},filter::Filter)
 
     # Assert fixed elements
     x[filter.posfix] .= filter.valfix
@@ -183,9 +193,8 @@ end
 #
 # do the proj -> this is the one to use 
 #
-function x2proj(x::Array{T},filter::Filter) where T
-
-    
+function x2proj(x::Vector{Float64},filter::Filter)
+   
     # Mapeamento para as densidades - Filtro
     ρ = x2ρ(x,filter)
 
@@ -198,12 +207,10 @@ function x2proj(x::Array{T},filter::Filter) where T
 
 end
 
-
 #
 # Fix the sensitivities
 #
-function dproj2dx!(x::Array{T},dproj::Array{T},filter::Filter) where T
-
+function dproj2dx!(x::Vector{Float64},dproj::Vector{Float64},filter::Filter)
 
     # Mapeamento para as densidades - Filtro
     ρ = x2ρ(x,filter)
@@ -222,7 +229,6 @@ function dproj2dx!(x::Array{T},dproj::Array{T},filter::Filter) where T
     dx[filter.posfix] .= 0.0
 
     dproj.= dx
-
 
 end
 
