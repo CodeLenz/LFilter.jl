@@ -86,9 +86,6 @@ end
 #
 function Map_x_ρ(R::Float64,mesh::Mesh)
 
-    # Alias
-    ne = Get_ne(mesh)
-
     # Obtem os vizinhos e pesos para o raio/malha
     viz, weigths = Neighbours(mesh,R)
 

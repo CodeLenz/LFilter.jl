@@ -5,9 +5,6 @@ function Neighbours(mesh::Mesh,radius::Float64)
     # Basic assertion
     @assert radius>0.0 "Neighbours:: radius must be >0.0"
     
-    # Alias
-    ne = Get_ne(mesh)
-
     # Maximum number of neighbours in the mesh
     num_max = 0
 
