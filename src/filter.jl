@@ -56,9 +56,8 @@ mutable struct Filter
 
          # Alias and number of fixed elements 
          fixed_elements =  mesh.options[:Fixed_elements]
-         nfixed = size(fixed_elements,1)
 
-         @inbounds for i=1:nfixed
+         @inbounds for i in axes(fixed_elements,1) 
              ele = Int(fixed_elements[i,1])
              val = fixed_elements[i,2]
              MAP[ele,:] .= 0.0
